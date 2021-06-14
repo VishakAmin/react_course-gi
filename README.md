@@ -10,4 +10,4 @@ It covers 6 and 7 section
 
 ## 3. Add_Users App
 
-It covers 8 and  section
+It covers 8 and 9 section
