@@ -1,0 +1,9 @@
+.finder {
+  margin-top: 20rem;
+  margin-left: 40rem;
+  background-color: white;
+  padding: 1rem;
+  border-radius: 12px;
+  max-width: 40rem;
+  text-align: left;
+}
