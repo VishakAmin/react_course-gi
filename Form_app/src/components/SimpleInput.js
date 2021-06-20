@@ -31,7 +31,6 @@ const SimpleInput = (props) => {
     if (!enteredNameIsValid) {
       return;
     }
-
     resetNameInput();
     resetEmailInput();
   };
@@ -54,7 +53,6 @@ const SimpleInput = (props) => {
           onChange={nameChangedHandler}
           onBlur={nameBlurHandler}
           value={enteredName}
-          placeholder="Enter name"
         />
         {nameInputHasError && (
           <p className='error-text'>Name must not be empty.</p>
@@ -68,7 +66,6 @@ const SimpleInput = (props) => {
           onChange={emailChangeHandler}
           onBlur={emailBlurHandler}
           value={enteredEmail}
-          placeholder="Enter email"
         />
         {emailInputHasError && (
           <p className='error-text'>Please enter a valid email.</p>
