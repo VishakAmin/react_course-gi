@@ -20,3 +20,22 @@
   color: #ad5502;
   font-size: 1.25rem;
 }
+.actions {
+  /* display: flex;
+  flex-direction: column; */
+}
+
+.button {
+  font: inherit;
+  font-weight: bold;
+  font-size: 1.25rem;
+  color: #8a2b06;
+  border: 1px solid #8a2b06;
+  width: 3rem;
+  text-align: center;
+  border-radius: 6px;
+  background-color: transparent;
+  cursor: pointer;
+  margin-left: 1rem;
+  margin: 0.25rem;
+}
