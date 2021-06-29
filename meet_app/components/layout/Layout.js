@@ -7,7 +7,7 @@ function Layout(props) {
       <MainNavigation />
       <main className={classes.main}>{props.children}</main>
     </div>
-  );
+  )
 }
 
-export default Layout;
+export default Layout

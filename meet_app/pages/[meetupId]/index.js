@@ -1,60 +1,75 @@
-import React from 'react'
+import { MongoClient, ObjectId } from 'mongodb';
+import { Fragment } from 'react';
+import Head from 'next/head';
 
-import MeetupDetail from '../../components/meetups/MeetupDeatil'
+import MeetupDetail from '../../components/meetups/MeetupDetail';
 
-const MeetupDetails = () => {
-
+function MeetupDetails(props) {
   return (
-    <div>
-        <MeetupDetail image={"https://upload.wikimedia.org/wikipedia/commons/b/b6/Image_created_with_a_mobile_phone.png"} title="First"
-         address="sdsadas" 
-         description="dsadasdsa"/>
-    </div>
-  )
+    <Fragment>
+      <Head>
+        <title>{props.meetupData.title}</title>
+        <meta name='description' content={props.meetupData.description} />
+      </Head>
+      <MeetupDetail
+        image={props.meetupData.image}
+        title={props.meetupData.title}
+        address={props.meetupData.address}
+        description={props.meetupData.description}
+      />
+    </Fragment>
+  );
 }
-
 
 export async function getStaticPaths() {
-    return {
-      fallback: false, 
-      paths:[
-          {
-              params :{
-                meetupId: "m1",
-              },  
+  const client = await MongoClient.connect(
+    'mongodb+srv://admin:31eTYhvArE6OZTg5@cluster0.jlfyg.mongodb.net/meetups?retryWrites=true&w=majority'
+  );
+  const db = client.db();
 
-          },
-          {
-            params :{
-              meetupId: "m2",
-            },  
+  const meetupsCollection = db.collection('meetups');
 
-        }
-        ]
+  const meetups = await meetupsCollection.find({}, { _id: 1 }).toArray();
 
-}
-}
+  client.close();
 
-
-
-export async function getStaticProps(context){
-
-  const meetupID = context.params.meetupId;
-
-  console.log(meetupID);
-  return{
-    props:{
-      meetupData:{
-        image: "https://upload.wikimedia.org/wikipedia/commons/b/b6/Image_created_with_a_mobile_phone.png",
-        id:"m1",
-        title:"First Meetup",
-        address:"Sds streey",
-        description:"This is dexcription"
-
-      }
-    }
-  }
+  return {
+    fallback: 'blocking',
+    paths: meetups.map((meetup) => ({
+      params: { meetupId: meetup._id.toString() },
+    })),
+  };
 }
 
+export async function getStaticProps(context) {
+  // fetch data for a single meetup
 
-export default MeetupDetails
+  const meetupId = context.params.meetupId;
+
+  const client = await MongoClient.connect(
+    'mongodb+srv://admin:31eTYhvArE6OZTg5@cluster0.jlfyg.mongodb.net/meetups?retryWrites=true&w=majority'
+  );
+  const db = client.db();
+
+  const meetupsCollection = db.collection('meetups');
+
+  const selectedMeetup = await meetupsCollection.findOne({
+    _id: ObjectId(meetupId),
+  });
+
+  client.close();
+
+  return {
+    props: {
+      meetupData: {
+        id: selectedMeetup._id.toString(),
+        title: selectedMeetup.title,
+        address: selectedMeetup.address,
+        image: selectedMeetup.image,
+        description: selectedMeetup.description,
+      },
+    },
+  };
+}
+
+export default MeetupDetails;

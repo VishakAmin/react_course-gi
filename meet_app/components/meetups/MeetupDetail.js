@@ -15,4 +15,4 @@ const MeetupDetail = (props) => {
   )
 }
 
-    export default MeetupDetail
+export default MeetupDetail;

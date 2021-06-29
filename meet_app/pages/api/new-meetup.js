@@ -1,28 +1,29 @@
+import { MongoClient } from 'mongodb';
+
 // /api/new-meetup
-import {MongoClient}  from 'mongodb';
- 
+// POST /api/new-meetup
 
-const  handler = async (req, res) => {
+async function handler(req, res) {
+  if (req.method === 'POST') {
 
-  if(req.method === 'POST'){
-      const data = req.body;
-      // const {title, image, address, description} = data
+    
+    const data = req.body;
 
-      const client = await MongoClient.connect("mongodb+srv://admin:fcGl2w6eVNoqaC5p@cluster0.jlfyg.mongodb.net/meetup?retryWrites=true&w=majority")
-      const db = client()
+    const client = await MongoClient.connect(
+      'mongodb+srv://admin:31eTYhvArE6OZTg5@cluster0.jlfyg.mongodb.net/meetups?retryWrites=true&w=majority'
+    );
+    const db = client.db();
 
+    const meetupsCollection = db.collection('meetups');
 
-      const meetupCollection = db.collection('meetups');
+    const result = await meetupsCollection.insertOne(data);
 
-      const result = await meetupCollection.insertOne(data)
+    console.log(result);
 
-      console.log(result);
+    client.close();
 
-      client.close()
-
-      res.status(201).json({message: "Meetup inserted"})
-
-    }
+    res.status(201).json({ message: 'Meetup inserted!' });
+  }
 }
 
 export default handler;

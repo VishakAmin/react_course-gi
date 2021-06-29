@@ -14,7 +14,7 @@ function MeetupList(props) {
         />
       ))}
     </ul>
-  );
+  )
 }
 
 export default MeetupList;
